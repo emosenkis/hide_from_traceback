@@ -79,21 +79,38 @@ def hide_from_traceback(f: Callable[P, R]) -> Callable[P, R]:
 
     import _hide_from_traceback
 
-    @functools.wraps(f)
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
-        try:
-            return f(*args, **kwargs)
-        except:
-            if not enabled:
-                raise
-            tp, exc, tb = sys.exc_info()
-            if tb:  # Remove decorated function
-                tb = tb.tb_next
-                if tb:  # Remove wrapper
+    if sys.version_info < (3, 11):
+        @functools.wraps(f)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            try:
+                return f(*args, **kwargs)
+            except:
+                if not enabled:
+                    raise
+                tp, exc, tb = sys.exc_info()
+                if tb:  # Remove decorated function
                     tb = tb.tb_next
-            _hide_from_traceback.set_exc_info(tp, exc, tb)
-            del tp, exc, tb
-            raise
+                    if tb:  # Remove wrapper
+                        tb = tb.tb_next
+                _hide_from_traceback.set_exc_info(tp, exc, tb)
+                del tp, exc, tb
+                raise
+    else:
+        @functools.wraps(f)
+        def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
+            try:
+                return f(*args, **kwargs)
+            except Exception as e:
+                if not enabled:
+                    raise
+                tb = e.__traceback__
+                if tb:  # Remove decorated function
+                    tb = tb.tb_next
+                    if tb:  # Remove wrapper
+                        tb = tb.tb_next
+                e.__traceback__ = tb
+                del tb, e
+                raise
 
     return wrapper
 
