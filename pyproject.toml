@@ -1,7 +1,7 @@
 [project]
 name = "hide_from_traceback"
 description = "Omit utility functions from tracebacks."
-version = "1.0a1"
+version = "1.0"
 requires-python = ">= 3.9"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -16,3 +16,9 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
 ext-modules = [{ name ="_hide_from_traceback", sources = ["lib.c"] }]
+packages = ["hide_from_traceback", "_hide_from_traceback"]
+
+[tool.cibuildwheel]
+build = "cp39-* cp310-* cp311-* cp312-*"
+test-requires = ["mypy==1.11.2"]
+test-command = "cd {project} && python -m doctest hide_from_traceback/__init__.py && mypy --strict hide_from_traceback"
