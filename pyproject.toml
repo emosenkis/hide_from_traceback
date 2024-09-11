@@ -1,0 +1,17 @@
+[project]
+name = "hide_from_traceback"
+description = "Omit utility functions from tracebacks."
+version = "1.0a1"
+requires-python = ">= 3.9"
+readme = "README.md"
+license = { file = "LICENSE" }
+
+[project.urls]
+Repository = "https://github.com/emosenkis/hide_from_traceback"
+
+[build-system]
+requires = ["setuptools >= 61.0", "this-package-requires-cpython; implementation_name != 'cpython'"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+ext-modules = [{ name ="_hide_from_traceback", sources = ["lib.c"] }]
