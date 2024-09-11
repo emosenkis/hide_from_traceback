@@ -1,8 +1,13 @@
 # hide\_from\_traceback
 
 A simple library for preventing utility functions from appearing in tracebacks.
-Compatible only with CPython 3. Bundles `set_exc_info` to avoid reliance on
-`_testcapi`, which is not included in all Python distributions.
+Requires CPython 3.9+. Bundles `set_exc_info` to avoid reliance on `_testcapi`,
+which is not included in all Python distributions and is needed for Python 3.9
+and 3.10.
+
+Compatibility with other Python implementations should be easy to add for
+Python 3.11+ since it should mostly consist of skipping building the C
+extension for those versions.
 
 ## Installation
 
