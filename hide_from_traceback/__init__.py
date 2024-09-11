@@ -108,9 +108,7 @@ def hide_from_traceback(f: Callable[P, R]) -> Callable[P, R]:
                     tb = tb.tb_next
                     if tb:  # Remove wrapper
                         tb = tb.tb_next
-                e.__traceback__ = tb
-                del tb, e
-                raise
+                raise e.with_traceback(tb)
 
     return wrapper
 
