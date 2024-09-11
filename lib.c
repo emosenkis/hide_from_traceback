@@ -86,8 +86,6 @@ _Init(PyObject *mod)
     return 0;
 }
 
-typedef struct {} state_t;
-
 static PyMethodDef Methods[] = {
   {NULL, NULL} /* sentinel */
 };
@@ -95,7 +93,7 @@ static PyMethodDef Methods[] = {
 static struct PyModuleDef _module = {
     PyModuleDef_HEAD_INIT,
     .m_name = "_hide_from_traceback",
-    .m_size = sizeof(state_t),
+    .m_size = 0,
     .m_methods = Methods,
 };
 
