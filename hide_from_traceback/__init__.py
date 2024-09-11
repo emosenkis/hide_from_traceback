@@ -104,9 +104,9 @@ def hide_from_traceback(f: Callable[P, R]) -> Callable[P, R]:
                 if not enabled:
                     raise
                 tb = e.__traceback__
-                if tb:  # Remove decorated function
-                    tb = tb.tb_next
-                    if tb:  # Remove wrapper
+                # Remove one extra frame in 3.11+
+                for i in range(3):
+                    if tb:
                         tb = tb.tb_next
                 raise e.with_traceback(tb)
 
