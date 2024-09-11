@@ -31,6 +31,7 @@ def hide_from_traceback(f: Callable[P, R]) -> Callable[P, R]:
     ...     tb = tb.replace(__file__, "hide_from_traceback.py")
     ...     tb = re.sub(r"line \d+", "line xx", tb)
     ...     tb = re.sub(r"\[\d+\]", "[xx]", tb)
+    ...     tb = re.sub(r"\n\s*\^+\s*\n", "\n", tb)
     ...     print(tb.rstrip())
 
     >>> def not_hidden():
