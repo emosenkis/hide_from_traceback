@@ -32,6 +32,7 @@ def hide_from_traceback(f: Callable[P, R]) -> Callable[P, R]:
     ...     tb = re.sub(r"line \d+", "line xx", tb)
     ...     tb = re.sub(r"\[\d+\]", "[xx]", tb)
     ...     tb = re.sub(r"\n\s*\^+\s*\n", "\n", tb)
+    ...     tb = re.sub("^[ ~^]+$\n", "", tb, flags=re.MULTILINE)
     ...     print(tb.rstrip())
 
     >>> def not_hidden():
